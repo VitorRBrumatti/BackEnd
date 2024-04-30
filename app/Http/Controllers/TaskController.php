@@ -13,7 +13,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-       
+       return Task::with('subtask')->paginate($request->input('per_page') ?? 10);
     }
 
     /**
@@ -46,7 +46,7 @@ class TaskController extends Controller
      */
     public function show(Task  $tasks)
     {
-        
+        return response()->json($tasks);
     }
 
     /**
