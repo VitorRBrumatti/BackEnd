@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tarefa;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
-class TarefaController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,21 +30,21 @@ class TarefaController extends Controller
        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
        }
-       $tarefa = Tarefa::create([
+       $tasks = Task::create([
         'title' => $request->input('title'),
         'description' => $request->input('description'),
         'due_date' => $request->input('due_date'),
        ]);
        return response()->json([
         'message' => 'Product created',
-        'tarefa' => $tarefa
+        'task' => $tasks
        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tarefa  $tarefa)
+    public function show(Task  $tasks)
     {
         
     }
@@ -52,7 +52,7 @@ class TarefaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tarefa $tarefa)
+    public function update(Request $request, Task $tasks)
     {
        
     }
@@ -60,7 +60,7 @@ class TarefaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tarefa $tarefas)
+    public function destroy(Task $tasks)
     {
         
     }

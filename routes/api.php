@@ -1,13 +1,23 @@
 <?php
 
+use App\Http\Controllers\SubtaskController;
 use App\Http\Controllers\TarefaController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/tarefa')->controller(TarefaController::class)->group(function () {
+Route::prefix('/task')->controller(TaskController::class)->group(function () {
     Route::post('', 'store');
     Route::get('', 'index');
-    Route::get('/{tarefa}', 'show');
-    Route::put('/{tarefa}', 'update');
-    Route::delete('/{tarefa}', 'destroy');
+    Route::get('/{task}', 'show');
+    Route::put('/{task}', 'update');
+    Route::delete('/{task}', 'destroy');
+});
+
+Route::prefix('/Subtask')->controller(SubtaskController::class)->group(function () {
+    Route::post('', 'store');
+    Route::get('', 'index');
+    Route::get('/{Subtask}', 'show');
+    Route::put('/{Subtask}', 'update');
+    Route::delete('/{Subtask}', 'destroy');
 });

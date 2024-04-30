@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Subtask;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class SubtaskController extends Controller
+{
+    public function store(Request $request)
+    {
+       $validation = Validator::make($request->all(),[
+        'title_subtask' =>  'required|min:3',
+        'task_id' => 'required|exists:tasks,id',
+        'description_subtask' => 'string',
+       ]);
+
+       if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+       }
+       $Subtasks = Subtask::create([
+        'title_subtask' => $request->input('title_subtask'),
+        'task_id' => $request->input('task_id'),
+        'description_subtask' => $request->input('description_subtask'),
+       ]);
+       return response()->json([
+        'message' => 'Product created',
+        'Subtask' => $Subtasks
+       ], 201);
+    }
+}
