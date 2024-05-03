@@ -80,7 +80,7 @@ class TaskController extends Controller
     {
         $task->delete();
         return response()->json([
-            'message' => 'Task deleted!!'
+            'message' => 'Subtask deleted!!'
         ]);
     }
 }
