@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class SubtaskController extends Controller
 {
+
+    public function index(Request $request ) {
+
+    }
     public function store(Request $request)
     {
        $validation = Validator::make($request->all(),[
@@ -34,8 +38,8 @@ class SubtaskController extends Controller
     {
         $validation = Validator::make($request->all(),[
             'title' =>  'min:3',
-            'description' => 'string',
-            'status' =>  'string|in:pending,completed'
+            'description' => 'string'
+            
            ]);
 
            if ($validation->fails()) {
@@ -51,7 +55,6 @@ class SubtaskController extends Controller
     }
     public function show(Subtask  $subtask)
     {
-        return response()->json($subtask);
     }
 
 
