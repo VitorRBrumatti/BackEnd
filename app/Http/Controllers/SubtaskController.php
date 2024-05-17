@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Validator;
 class SubtaskController extends Controller
 {
 
-    public function index(Request $request ) {
-
-    }
     public function store(Request $request)
     {
        $validation = Validator::make($request->all(),[
@@ -53,10 +50,7 @@ class SubtaskController extends Controller
            ]);
 
     }
-    public function show(Subtask  $subtask)
-    {
-    }
-
+    
 
 
     public function destroy(Subtask  $subtask)
