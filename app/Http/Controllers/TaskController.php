@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -13,9 +14,15 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-       return Task::with('subtasks')->paginate($request->input('per_page') ?? 10);
-    }
+        $tasksQuery = Task::with('subtasks');
 
+        $tasksQuery->where(function($query) {
+            $query->where('due_date', '<', Carbon::today()) 
+                  ->orWhereDate('due_date', Carbon::today()); 
+        });
+        $perPage = $request->input('per_page') ?? 10;
+        return $tasksQuery->paginate($perPage);
+    }
     /**
      * Store a newly created resource in storage.
      */
