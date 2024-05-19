@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title_subtask');
             $table->longText('description_subtask');
-            $table->foreignId('task_id')->constrained('tasks');
+            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
             $table->enum('status_subtask', ['pending', 'completed'])->default('pending');
             $table->timestamps();
         });

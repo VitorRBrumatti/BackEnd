@@ -14,38 +14,39 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasksQuery = Task::with('subtasks');
+        $query = Task::with('subtasks');
 
-        $tasksQuery->where(function($query) {
-            $query->where('due_date', '<', Carbon::today()) 
-                  ->orWhereDate('due_date', Carbon::today()); 
-        });
-        $perPage = $request->input('per_page') ?? 10;
-        return $tasksQuery->paginate($perPage);
+        if ($request->input('filter') === 'overdue') {
+            $query->where('due_date', '<', Carbon::now()->startOfDay());
+        }
+        if ($request->input('filter') === 'today') {
+            $query->whereDate('due_date', Carbon::today()->startOfDay());
+        }
+        return $query->paginate($request->input('per_page') ?? 10);
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-       $validation = Validator::make($request->all(),[
-        'title' =>  'required|min:3',
-        'description' => 'string',
-        'due_date' => 'required|date'
-       ]);
+        $validation = Validator::make($request->all(), [
+            'title' =>  'required|min:3',
+            'description' => 'string',
+            'due_date' => 'required|date'
+        ]);
 
-       if ($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
-       }
-       $task = Task::create([
-        'title' => $request->input('title'),
-        'description' => $request->input('description'),
-        'due_date' => $request->input('due_date'),
-       ]);
-       return response()->json([
-        'message' => 'Product created',
-        'task' => $task
-       ], 201);
+        }
+        $task = Task::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'due_date' => $request->input('due_date'),
+        ]);
+        return response()->json([
+            'message' => 'Product created',
+            'task' => $task
+        ], 201);
     }
 
     /**
@@ -61,23 +62,22 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'title' =>  'min:3',
             'description' => 'string',
             'due_date' => 'date',
             'status' =>  'string|in:pending,completed'
-           ]);
+        ]);
 
-           if ($validation->fails()) {
-            return response()->json($validation->errors(),422);
-           }
+        if ($validation->fails()) {
+            return response()->json($validation->errors(), 422);
+        }
 
-           $task->fill($request->input())->update();
-           return response()->json([
+        $task->fill($request->input())->update();
+        return response()->json([
             'message' => 'Task updated!',
-            'tasks'=> $task
-           ]);
-
+            'tasks' => $task
+        ]);
     }
 
     /**
