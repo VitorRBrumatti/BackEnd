@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Symfony\Component\Console\Input\Input;
 
 class TaskController extends Controller
 {
@@ -72,11 +73,17 @@ class TaskController extends Controller
         if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
-
         $task->fill($request->input())->update();
+
+        if ($request->has('status') && $request->input('status') === 'completed') {
+            $task->subtasks()->update(['status_subtask' => 'completed']);
+        }  else if ($request->has('status') && $request->input('status') === 'pending') {
+            $task->subtasks()->update(['status_subtask' => 'pending']);
+        }
+
         return response()->json([
             'message' => 'Task updated!',
-            'tasks' => $task
+            'tasks' => $task->load('subtasks')
         ]);
     }
 

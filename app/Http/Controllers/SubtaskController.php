@@ -34,8 +34,9 @@ class SubtaskController extends Controller
     public function update(Request $request, Subtask  $subtask)
     {
         $validation = Validator::make($request->all(),[
-            'title' =>  'min:3',
-            'description' => 'string'
+            'title_subtask' =>  'min:3',
+            'description_subtask' => 'string',
+            'status_subtask' =>  'string|in:pending,completed'
             
            ]);
 
@@ -45,7 +46,7 @@ class SubtaskController extends Controller
 
            $subtask->fill($request->input())->update();
            return response()->json([
-            'message' => 'Task updated!',
+            'message' => 'Subtask updated!',
             'subtasks'=> $subtask
            ]);
 
@@ -57,7 +58,7 @@ class SubtaskController extends Controller
     {
         $subtask->delete();
         return response()->json([
-            'message' => 'Task deleted!!'
+            'message' => 'Subtask deleted!!'
         ]);
     }
 }
