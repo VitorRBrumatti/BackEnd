@@ -31,9 +31,15 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'title' =>  'required|min:3',
+            'title' => 'required|min:3',
             'description' => 'string',
             'due_date' => 'required|date'
+        ], [
+            'title.required' => 'O campo :attribute é obrigatório.',
+            'title.min' => 'O campo :attribute deve ter pelo menos :min caracteres.',
+            'description.string' => 'O campo :attribute deve ser uma string.',
+            'due_date.required' => 'O campo :attribute é obrigatório.',
+            'due_date.date' => 'O campo :attribute deve ser uma data válida.'
         ]);
 
         if ($validation->fails()) {
