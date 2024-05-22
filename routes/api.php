@@ -14,10 +14,10 @@ Route::prefix('/task')->controller(TaskController::class)->group(function () {
     Route::delete('/{task}', 'destroy');
 });
 
-Route::prefix('/Subtask')->controller(SubtaskController::class)->group(function () {
+Route::prefix('/subtask')->controller(SubtaskController::class)->group(function () {
     Route::post('', 'store');
     Route::get('', 'index');
-    Route::get('/{Subtask}', 'show');
-    Route::put('/{Subtask}', 'update');
-    Route::delete('/{Subtask}', 'destroy');
+    Route::get('/{subtask}', 'show');
+    Route::put('/{subtask}', 'update');
+    Route::delete('/{subtask}', 'destroy');
 });

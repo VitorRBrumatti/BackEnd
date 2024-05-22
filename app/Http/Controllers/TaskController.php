@@ -79,7 +79,8 @@ class TaskController extends Controller
         if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
         }
-        $task->fill($request->input())->update();
+        $task->fill($request->input());
+        $task->update();
 
         if ($request->has('status') && $request->input('status') === 'completed') {
             $task->subtasks()->update(['status_subtask' => 'completed']);
