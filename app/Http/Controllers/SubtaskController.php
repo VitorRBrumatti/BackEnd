@@ -15,7 +15,11 @@ class SubtaskController extends Controller
         'title_subtask' =>  'required|min:3',
         'task_id' => 'required|exists:tasks,id',
         'description_subtask' => 'string',
-       ]);
+       ], [
+        'title_subtask.required' => 'O título da subtask é obrigatório.',
+        'title_subtask.min' => 'O título da subtask deve ter pelo menos :min caracteres.',
+        'description_subtask.string' => 'A description deve ser uma string.',
+    ]);
 
        if ($validation->fails()) {
             return response()->json($validation->errors(), 422);
